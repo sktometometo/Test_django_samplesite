@@ -1,0 +1,29 @@
+{% extends 'partlist/base.html' %}
+
+{% block content %}
+    <h2>登録済み部品一覧</h2>
+    <table border="1">
+        <tr>
+            <th>部品名</th>
+            <th>部品番号</th>
+            <th>数量</th>
+            <th>単位</th>
+            <th>保管場所</th>
+            <th>調達先</th>
+            <th>備考</th>
+        </tr>
+        {% if list_parts %}
+        {% for part in list_parts %}
+        <tr>
+            <th><a href="{% url 'part_detail' part.pk %}">{{ part.part_name }}</a></th>
+            <th>{{ part.part_number }}</th>
+            <th>{{ part.part_amount }}</th>
+            <th>{{ part.part_unit }}</th>
+            <th>{{ part.part_place }}</th>
+            <th>{{ part.part_supplier }}</th>
+            <th>{{ part.part_remark }}</th>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+{% endblock %}

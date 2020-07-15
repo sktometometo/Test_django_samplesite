@@ -1,0 +1,16 @@
+{% extends 'partlist/base.html' %}
+
+{% block content %}
+    <h2>補充・使用記録</h2>
+    {% if is_error == True %}
+    入力内容が不正です.
+    {% endif %}
+    {% if form %}
+    {% else %}
+    hoge
+    {% endif %}
+    <form method="POST" class="transaction-edit-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">登録</button>
+    </form>
+{% endblock %}

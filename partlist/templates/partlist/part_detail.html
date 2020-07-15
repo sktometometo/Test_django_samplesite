@@ -1,0 +1,53 @@
+{% extends 'partlist/base.html' %}
+
+{% block content %}
+    <h2>{{ part.part_name }}</h2>
+    <table border="1">
+        <tr>
+            <th>部品名</th>
+            <th>{{ part.part_name }}</th>
+        </tr>
+        <tr>
+            <th>部品番号</th>
+            <th>{{ part.part_number }}</th>
+        </tr>
+        <tr>
+            <th>数量</th>
+            <th>{{ part.part_amount }}</th>
+        </tr>
+        <tr>
+            <th>単位</th>
+            <th>{{ part.part_unit }}</th>
+        </tr>
+        <tr>
+            <th>保管場所</th>
+            <th>{{ part.part_place }}</th>
+        </tr>
+        <tr>
+            <th>調達先</th>
+            <th>{{ part.part_supplier }}</th>
+        </tr>
+        <tr>
+            <th>備考</th>
+            <th>{{ part.part_remark }}</th>
+        </tr>
+    </table>
+
+    <h3>使用・補充履歴</h3>
+    <table border="1">
+        <tr>
+            <th>日付</th>
+            <th>変更量</th>
+            <th>備考</th>
+        </tr>
+        {% if list_transactions %}
+        {% for transaction in list_transactions %}
+        <tr>
+            <th>{{ transaction.transaction_date }}</th>
+            <th>{{ transaction.transaction_diff }}</th>
+            <th>{{ transaction.transaction_remark }}</th>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+{% endblock %}
