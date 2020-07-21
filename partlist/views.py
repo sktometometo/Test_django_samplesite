@@ -55,7 +55,11 @@ def part_add(request):
 def part_delete(request):
     delete_ids = request.POST.getlist('delete_ids')
     if delete_ids:
-        Part.objects.filter(pk==delete_ids).delete()
+        delete_ids = map( int, delete_ids )
+        for did in delete_ids:
+            Transaction.objects.filter(transaction_part=did).delete()
+            Part.objects.filter(pk=did).delete()
+    updateAmount()
     return redirect('part_index')
 
 @require_http_methods(['GET','POST'])
@@ -134,7 +138,10 @@ def transaction_add(request):
 def transaction_delete(request):
     delete_ids = request.POST.getlist('delete_ids')
     if delete_ids:
-        Transaction.objects.filter(pk==delete_ids).delete()
+        delete_ids = map( int, delete_ids )
+        for did in delete_ids:
+            Transaction.objects.filter(pk=did).delete()
+    updateAmount()
     return redirect('transaction_index')
 
 @require_http_methods(['GET','POST'])

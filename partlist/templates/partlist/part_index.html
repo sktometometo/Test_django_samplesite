@@ -2,28 +2,36 @@
 
 {% block content %}
     <h2>登録済み部品一覧</h2>
-    <table border="1">
-        <tr>
-            <th>部品名</th>
-            <th>部品番号</th>
-            <th>数量</th>
-            <th>単位</th>
-            <th>保管場所</th>
-            <th>調達先</th>
-            <th>備考</th>
-        </tr>
-        {% if list_parts %}
-        {% for part in list_parts %}
-        <tr>
-            <th><a href="{% url 'part_detail' part.pk %}">{{ part.part_name }}</a></th>
-            <th>{{ part.part_number }}</th>
-            <th>{{ part.part_amount }}</th>
-            <th>{{ part.part_unit }}</th>
-            <th>{{ part.part_place }}</th>
-            <th>{{ part.part_supplier }}</th>
-            <th>{{ part.part_remark }}</th>
-        </tr>
-        {% endfor %}
-        {% endif %}
-    </table>
+    <form method="post" action="{% url 'part_delete' %}">{# actionを変更する #}
+        <table border="1">
+            <tr>
+                <th></th>
+                <th>部品名</th>
+                <th>部品番号</th>
+                <th>数量</th>
+                <th>単位</th>
+                <th>保管場所</th>
+                <th>調達先</th>
+                <th>備考</th>
+                <th></th>
+            </tr>
+            {% if list_parts %}
+            {% for part in list_parts %}
+            <tr>
+                <td><input type="checkbox" name="delete_ids" value="{{ part.pk }}"></td>{# 追加する #}
+                <th>{{ part.part_name }}</th>
+                <th>{{ part.part_number }}</th>
+                <th>{{ part.part_amount }}</th>
+                <th>{{ part.part_unit }}</th>
+                <th>{{ part.part_place }}</th>
+                <th>{{ part.part_supplier }}</th>
+                <th>{{ part.part_remark }}</th>
+                <td><a href="{% url 'part_edit' part.pk %}">更新画面へ</a></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+        {% csrf_token %}{# 追加する #}
+        <input type="submit" value="削除">
+    </form>
 {% endblock %}

@@ -2,22 +2,30 @@
 
 {% block content %}
     <h2>部品使用・補充履歴</h2>
-    <table border="1">
-        <tr>
-            <th>日付</th>
-            <th>部品名</th>
-            <th>変更量</th>
-            <th>備考</th>
-        </tr>
-        {% if list_transactions %}
-        {% for transaction in list_transactions %}
-        <tr>
-            <th>{{ transaction.transaction_date }}</th>
-            <th><a href="{% url 'part_detail' transaction.transaction_part.pk %}">{{ transaction.transaction_part }}</a></th>
-            <th>{{ transaction.transaction_diff }}</th>
-            <th>{{ transaction.transaction_remark }}</th>
-        </tr>
-        {% endfor %}
-        {% endif %}
-    </table>
+    <form method="post" action="{% url 'transaction_delete' %}">{# actionを変更する #}
+        <table border="1">
+            <tr>
+                <th></th>
+                <th>日付</th>
+                <th>部品名</th>
+                <th>変更量</th>
+                <th>備考</th>
+                <th></th>
+            </tr>
+            {% if list_transactions %}
+            {% for transaction in list_transactions %}
+            <tr>
+                <td><input type="checkbox" name="delete_ids" value="{{ transaction.pk }}"></td>{# 追加する #}
+                <th>{{ transaction.transaction_date }}</th>
+                <th><a href="{% url 'part_detail' transaction.transaction_part.pk %}">{{ transaction.transaction_part }}</a></th>
+                <th>{{ transaction.transaction_diff }}</th>
+                <th>{{ transaction.transaction_remark }}</th>
+                <td><a href="{% url 'transaction_edit' transaction.pk %}">更新画面へ</a></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+        {% csrf_token %}{# 追加する #}
+        <input type="submit" value="削除">
+    </form>
 {% endblock %}
